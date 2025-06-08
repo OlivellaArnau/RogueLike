@@ -1,0 +1,377 @@
+fileFormatVersion: 2
+guid: c771f6e17760b9743a80beff48bdc0a8
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5275254643089003798
+    second: GirlSample_Melee_DownLeft_0
+  - first:
+      213: 942545550165109840
+    second: GirlSample_Melee_DownLeft_1
+  - first:
+      213: 6852971098871004253
+    second: GirlSample_Melee_DownLeft_2
+  - first:
+      213: -4189249019538685949
+    second: GirlSample_Melee_DownLeft_3
+  - first:
+      213: -657430830758501988
+    second: GirlSample_Melee_DownLeft_4
+  - first:
+      213: 7825044011024777662
+    second: GirlSample_Melee_DownLeft_5
+  - first:
+      213: 4795547020654807684
+    second: GirlSample_Melee_DownLeft_6
+  - first:
+      213: 7847094906466270279
+    second: GirlSample_Melee_DownLeft_7
+  - first:
+      213: 6956950502163254558
+    second: GirlSample_Melee_DownLeft_8
+  - first:
+      213: 1814905700652031626
+    second: GirlSample_Melee_DownLeft_9
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: GirlSample_Melee_DownLeft_0
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 598
+        width: 44
+        height: 114
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 615dc0df528753940800000000000000
+      internalID: 5275254643089003798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Melee_DownLeft_1
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 598
+        width: 51
+        height: 117
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05c673e1f28941d00800000000000000
+      internalID: 942545550165109840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Melee_DownLeft_2
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 596
+        width: 52
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5c7934e7e4aa1f50800000000000000
+      internalID: 6852971098871004253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Melee_DownLeft_3
+      rect:
+        serializedVersion: 2
+        x: 867
+        y: 590
+        width: 44
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3004eba563cccd5c0800000000000000
+      internalID: -4189249019538685949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Melee_DownLeft_4
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 334
+        width: 58
+        height: 105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c91ef34842650e6f0800000000000000
+      internalID: -657430830758501988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Melee_DownLeft_5
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 334
+        width: 38
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb10ee4b114289c60800000000000000
+      internalID: 7825044011024777662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Melee_DownLeft_6
+      rect:
+        serializedVersion: 2
+        x: 606
+        y: 334
+        width: 37
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48a00dd7b943d8240800000000000000
+      internalID: 4795547020654807684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Melee_DownLeft_7
+      rect:
+        serializedVersion: 2
+        x: 861
+        y: 334
+        width: 38
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74cf2b2ed3b76ec60800000000000000
+      internalID: 7847094906466270279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Melee_DownLeft_8
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 78
+        width: 54
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1d8a694f9d0c8060800000000000000
+      internalID: 6956950502163254558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Melee_DownLeft_9
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 78
+        width: 54
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8e12347e17df2910800000000000000
+      internalID: 1814905700652031626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      GirlSample_Melee_DownLeft_0: 5275254643089003798
+      GirlSample_Melee_DownLeft_1: 942545550165109840
+      GirlSample_Melee_DownLeft_2: 6852971098871004253
+      GirlSample_Melee_DownLeft_3: -4189249019538685949
+      GirlSample_Melee_DownLeft_4: -657430830758501988
+      GirlSample_Melee_DownLeft_5: 7825044011024777662
+      GirlSample_Melee_DownLeft_6: 4795547020654807684
+      GirlSample_Melee_DownLeft_7: 7847094906466270279
+      GirlSample_Melee_DownLeft_8: 6956950502163254558
+      GirlSample_Melee_DownLeft_9: 1814905700652031626
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

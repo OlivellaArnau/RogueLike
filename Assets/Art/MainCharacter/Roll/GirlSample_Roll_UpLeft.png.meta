@@ -1,0 +1,377 @@
+fileFormatVersion: 2
+guid: 2ee1050448ea42240a90e358ee256d60
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7054243580403274228
+    second: GirlSample_Roll_UpLeft_0
+  - first:
+      213: 6152886300367717647
+    second: GirlSample_Roll_UpLeft_1
+  - first:
+      213: -824410993302307930
+    second: GirlSample_Roll_UpLeft_2
+  - first:
+      213: -7879774523278940578
+    second: GirlSample_Roll_UpLeft_3
+  - first:
+      213: 4909272904022658497
+    second: GirlSample_Roll_UpLeft_4
+  - first:
+      213: -7924376100099632078
+    second: GirlSample_Roll_UpLeft_5
+  - first:
+      213: -2574904644257188684
+    second: GirlSample_Roll_UpLeft_6
+  - first:
+      213: -266647172976257197
+    second: GirlSample_Roll_UpLeft_7
+  - first:
+      213: 6030203047002727809
+    second: GirlSample_Roll_UpLeft_8
+  - first:
+      213: -3821969424802814420
+    second: GirlSample_Roll_UpLeft_9
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: GirlSample_Roll_UpLeft_0
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 633
+        width: 47
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0eabfea6da4a1e90800000000000000
+      internalID: -7054243580403274228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Roll_UpLeft_1
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 630
+        width: 82
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0509c4ad71736550800000000000000
+      internalID: 6152886300367717647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Roll_UpLeft_2
+      rect:
+        serializedVersion: 2
+        x: 572
+        y: 626
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6abf94bc19a1f84f0800000000000000
+      internalID: -824410993302307930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Roll_UpLeft_3
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 637
+        width: 103
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5629c5e1da65a290800000000000000
+      internalID: -7879774523278940578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Roll_UpLeft_4
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 385
+        width: 100
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1cd88bd12bd312440800000000000000
+      internalID: 4909272904022658497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Roll_UpLeft_5
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 370
+        width: 63
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23457fe0ce5f60290800000000000000
+      internalID: -7924376100099632078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Roll_UpLeft_6
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 383
+        width: 51
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b4fb845ed9144cd0800000000000000
+      internalID: -2574904644257188684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Roll_UpLeft_7
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 386
+        width: 50
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35753661fcdac4cf0800000000000000
+      internalID: -266647172976257197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Roll_UpLeft_8
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 131
+        width: 64
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 185631cc8b59fa350800000000000000
+      internalID: 6030203047002727809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GirlSample_Roll_UpLeft_9
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 129
+        width: 49
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c26693cce03a5fac0800000000000000
+      internalID: -3821969424802814420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      GirlSample_Roll_UpLeft_0: -7054243580403274228
+      GirlSample_Roll_UpLeft_1: 6152886300367717647
+      GirlSample_Roll_UpLeft_2: -824410993302307930
+      GirlSample_Roll_UpLeft_3: -7879774523278940578
+      GirlSample_Roll_UpLeft_4: 4909272904022658497
+      GirlSample_Roll_UpLeft_5: -7924376100099632078
+      GirlSample_Roll_UpLeft_6: -2574904644257188684
+      GirlSample_Roll_UpLeft_7: -266647172976257197
+      GirlSample_Roll_UpLeft_8: 6030203047002727809
+      GirlSample_Roll_UpLeft_9: -3821969424802814420
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
