@@ -5,8 +5,7 @@ public class Combat_Behaviour : MonoBehaviour
 {
     [SerializeField] private GameObject pointer; 
     [SerializeField] private float meleeAttackDuration = 0.2f; 
-    [SerializeField] private float meleeCooldown = 1f; 
-    [SerializeField] private AWeaponSO[] weaponSO = new AWeaponSO[2]; 
+    [SerializeField] private float meleeCooldown = 1f;
     private Animator animator;
     private bool isAttacking;
     private bool canAttack = true; 

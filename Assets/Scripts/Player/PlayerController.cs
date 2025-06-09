@@ -104,12 +104,55 @@ public class PlayerController : MonoBehaviour, PlayerBase.IPlayer_BaseActions
     }
     public void OnLook(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (!context.performed) return;
+
+        try
         {
-            Vector2 mousePosition = context.ReadValue<Vector2>();
-            Vector3 worldMousePosition = mainCamera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, -mainCamera.transform.position.z));
+            // 1. Verificar y asignar cámara si es necesario
+            if (mainCamera == null)
+            {
+                mainCamera = Camera.main;
+                if (mainCamera == null)
+                {
+                    Debug.LogError("No se encontró cámara principal en la escena"); 
+                    return;
+                }
+            }
+
+            // 2. Verificar lookBehaviour
+            if (lookBehaviour == null)
+            {
+                lookBehaviour = GetComponent<Look_Behaviour>();
+                if (lookBehaviour == null)
+                {
+                    Debug.LogError("No se encontró componente Look_Behaviour en el jugador");
+                    return;
+                }
+            }
+
+            // 3. Leer input de forma segura
+            Vector2 mousePosition;
+            try
+            {
+                mousePosition = context.ReadValue<Vector2>();
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Error al leer input: {e.Message}");
+                return;
+            }
+
+            // 4. Convertir coordenadas de pantalla a mundo
+            Vector3 screenPos = new Vector3(mousePosition.x, mousePosition.y, Mathf.Abs(mainCamera.transform.position.z));
+            Vector3 worldMousePosition = mainCamera.ScreenToWorldPoint(screenPos);
+
+            // 5. Ejecutar comportamientos
             lookBehaviour.LookAt(worldMousePosition);
             lookBehaviour.RotateAsset();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Excepción en OnLook: {e.Message}\n{e.StackTrace}");
         }
     }
 

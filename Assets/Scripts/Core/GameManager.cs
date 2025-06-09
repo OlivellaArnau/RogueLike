@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Events;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -73,8 +74,11 @@ public class GameManager : MonoBehaviour
         dungeonGenerator = FindObjectOfType<DungeonGenerator>();
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
+        // Esperar un frame para asegurar que el DungeonGenerator se haya inicializado
+        yield return null;
+
         // Generar el nivel inicial si está configurado
         if (generateOnStart)
         {
@@ -127,25 +131,53 @@ public class GameManager : MonoBehaviour
         if (playerPrefab != null && dungeonGenerator != null)
         {
             Room startRoom = dungeonGenerator.GetStartRoom();
-            Debug.Log(GetPlayer() + " " + startRoom + " " + playerPrefab + " " + dungeonGenerator);
+
             if (startRoom != null)
             {
                 Debug.Log("Instanciando jugador en la sala inicial");
                 // Instanciar el jugador en la sala inicial
                 player = Instantiate(playerPrefab, startRoom.transform.position, Quaternion.identity);
 
+                // Configurar la cámara
+                SetupCamera(player);
+
                 // Notificar a la sala que el jugador ha entrado
                 startRoom.OnPlayerEnter();
-            }
-            else
-            {
-                Debug.LogError("No se encontró una sala inicial");
+
+                // Asignar la sala actual al jugador
+                PlayerController playerController = player.GetComponent<PlayerController>();
+                if (playerController != null)
+                {
+                    playerController.SetCurrentRoom(startRoom);
+                }
             }
         }
-        else
+    }
+
+    private void SetupCamera(GameObject player)
+    {
+        if (mainCamera == null)
         {
-            Debug.LogError("No se ha asignado un prefab de jugador o no se encontró un DungeonGenerator");
+            mainCamera = Camera.main;
+            if (mainCamera == null)
+            {
+                Debug.LogError("No se encontró una cámara principal en la escena");
+                return;
+            }
         }
+        // Asegurar que la posición Z se mantenga (importante para cámaras 2D)
+        float originalZ = mainCamera.transform.position.z;
+        // Configurar la posición de la cámara para que siga al jugador
+
+        mainCamera.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, originalZ);
+
+        // Configurar el seguimiento suave si es necesario
+        CameraFollow cameraFollow = mainCamera.GetComponent<CameraFollow>();
+        if (cameraFollow == null)
+        {
+            cameraFollow = mainCamera.AddComponent<CameraFollow>();
+        }
+        cameraFollow.SetTarget(player.transform);
     }
     public void CompleteLevel()
     {
