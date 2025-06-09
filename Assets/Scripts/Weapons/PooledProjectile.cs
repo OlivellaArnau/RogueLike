@@ -29,13 +29,13 @@ public class PooledProjectile : MonoBehaviour
             rb.gravityScale = 0f;
         }
     }
-    
+
     private void OnEnable()
     {
-        spawnTime = Time.time;
-        isActive = true;
+        isActive = false; // Aún no está listo hasta que se inicialice con parámetros
     }
-    
+
+
     private void Update()
     {
         if (!isActive) return;
@@ -74,12 +74,16 @@ public class PooledProjectile : MonoBehaviour
             ReturnToPool();
         }
         // Verificar obstáculos (paredes, etc.)
-        else if (other.CompareTag("Wall") || other.CompareTag("Obstacle"))
+        else if (other.CompareTag("Obstacle") || other.CompareTag("Wall"))
+        {
+            Debug.Log($"Proyectil colisionó con {other.name}, retornando al pool");
+            ReturnToPool();
+        }
         {
             ReturnToPool();
         }
     }
-    
+
     /// <summary>
     /// Inicializa el proyectil con parámetros específicos.
     /// </summary>
@@ -89,24 +93,25 @@ public class PooledProjectile : MonoBehaviour
         direction = fireDirection.normalized;
         damage = projectileDamage;
         speed = projectileSpeed;
-        
-        // Configurar movimiento
+
         if (rb != null)
         {
-            rb.linearVelocity = direction * speed;
+            Vector3 correctedDirection = Quaternion.Euler(0, 0, 90) * direction;
+            rb.linearVelocity = correctedDirection * speed;
         }
-        
-        // Rotar hacia la dirección de movimiento
+
         if (direction != Vector3.zero)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
-        
+
         spawnTime = Time.time;
-        isActive = true;
+        isActive = true; // Ahora sí está activo y puede hacer Update
+        gameObject.SetActive(true); // Asegurarse de que esté activado si lo llamas desde fuera
+
+        Debug.Log($"Proyectil inicializado: Posición {startPosition}, Dirección {direction}, Daño {damage}, Velocidad {speed}");
     }
-    
     /// <summary>
     /// Establece la referencia al pool.
     /// </summary>
@@ -150,7 +155,7 @@ public class PooledProjectile : MonoBehaviour
         Vector3 pos = transform.position;
         
         // Límites básicos (pueden ajustarse según el juego)
-        float maxDistance = 50f;
+        float maxDistance = 100000f;
         
         return Mathf.Abs(pos.x) > maxDistance || Mathf.Abs(pos.y) > maxDistance;
     }
@@ -162,10 +167,6 @@ public class PooledProjectile : MonoBehaviour
     {
         return (layerMask.value & (1 << layer)) != 0;
     }
-    
-    /// <summary>
-    /// Configura el tiempo de vida del proyectil.
-    /// </summary>
     public void SetLifetime(float newLifetime)
     {
         lifetime = newLifetime;

@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7524487235245496892}
   - component: {fileID: 2679271080672733143}
-  - component: {fileID: 3951186805881259691}
   - component: {fileID: 7335069356759265990}
   - component: {fileID: 670572252434509941}
-  m_Layer: 0
+  - component: {fileID: 1919895428678000503}
+  m_Layer: 8
   m_Name: SniperBullet
-  m_TagString: Projectile
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,9 +78,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 80
   m_Sprite: {fileID: -2413806693520163455, guid: 4adeaf2d2b1c7417e89f026626d8264f, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.1997869, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -90,27 +90,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3951186805881259691
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7294910849851923435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04979161cb5a6e142b157205fe889d5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
-  lifetime: 5
-  impactEffect: {fileID: 0}
-  collisionLayers:
-    serializedVersion: 2
-    m_Bits: 65
-  destroyOnImpact: 1
-  applyForceOnImpact: 0
-  impactForce: 0
 --- !u!50 &7335069356759265990
 Rigidbody2D:
   serializedVersion: 5
@@ -133,7 +112,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -174,3 +153,21 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.21133336}
   m_Radius: 0.50000006
+--- !u!114 &1919895428678000503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7294910849851923435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948298721ce5f9e46b5968f5195ba7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 23.89
+  speed: 20
+  damage: 25
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 128

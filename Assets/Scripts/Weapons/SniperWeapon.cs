@@ -19,49 +19,36 @@ public class SniperWeapon : RangedWeapon
     
     // Estado del arma
     private bool poolInitialized = false;
-    
+
     /// <summary>
     /// Implementación del disparo sniper con pooling.
     /// </summary>
     public override bool UseWeapon(Transform user, Vector3 target)
     {
-        // Verificar que el pool esté inicializado
-        if (!poolInitialized)
+        Debug.Log("[Sniper] Intentando disparar");
+        if (!poolInitialized) InitializePool();
+
+        Combat_Behaviour combat = user.GetComponent<Combat_Behaviour>();
+        if (combat == null) return false;
+
+        Vector3 firePos = combat.GetPointerPosition();
+        Vector3 dir = combat.GetPointerDirection();
+
+        GameObject proj = SimpleProjectilePool.Instance.GetProjectile();
+        if (proj == null) return false;
+
+        var pooled = proj.GetComponent<PooledProjectile>();
+        if (pooled != null)
         {
-            InitializePool();
+            pooled.Initialize(firePos, dir, damage, projectileSpeed);
+            pooled.SetLifetime(projectileLifetime);
+            pooled.SetEnemyLayerMask(combat.GetEnemyLayerMask());
+            return true;
         }
-        
-        // Obtener posición y dirección de disparo
-        Vector3 firePosition = GetFirePosition(user);
-        Vector3 fireDirection = GetFireDirection(user, target);
-        
-        // Obtener proyectil del pool
-        GameObject projectile = SimpleProjectilePool.Instance.GetProjectile();
-        if (projectile == null)
-        {
-            Debug.LogError("SniperWeapon: No se pudo obtener proyectil del pool");
-            return false;
-        }
-        
-        // Configurar proyectil
-        PooledProjectile pooledComponent = projectile.GetComponent<PooledProjectile>();
-        if (pooledComponent != null)
-        {
-            pooledComponent.Initialize(firePosition, fireDirection, damage, projectileSpeed);
-            pooledComponent.SetLifetime(projectileLifetime);
-            pooledComponent.SetEnemyLayerMask(GetEnemyLayerMask(user));
-        }
-        else
-        {
-            Debug.LogError("SniperWeapon: Proyectil no tiene componente PooledProjectile");
-            SimpleProjectilePool.Instance.ReturnProjectile(projectile);
-            return false;
-        }
-        
-        Debug.Log($"SniperWeapon: {weaponName} disparado hacia {fireDirection}");
-        return true;
+
+        return false;
     }
-    
+
     /// <summary>
     /// Inicializa el pool de proyectiles.
     /// </summary>
@@ -79,31 +66,23 @@ public class SniperWeapon : RangedWeapon
         
         Debug.Log($"SniperWeapon: Pool inicializado para {weaponName}");
     }
-    
-    /// <summary>
-    /// Obtiene la máscara de capas de enemigos del WeaponManager.
-    /// </summary>
     private LayerMask GetEnemyLayerMask(Transform user)
     {
-        WeaponManager weaponManager = user.GetComponent<WeaponManager>();
-        if (weaponManager != null)
+        Combat_Behaviour combatBehaviour = user.GetComponent<Combat_Behaviour>();
+        if (combatBehaviour != null)
         {
             // Usar reflexión para obtener enemyLayerMask si es accesible
-            var field = weaponManager.GetType().GetField("enemyLayerMask", 
+            var field = combatBehaviour.GetType().GetField("enemyLayerMask", 
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             if (field != null)
             {
-                return (LayerMask)field.GetValue(weaponManager);
+                return (LayerMask)field.GetValue(combatBehaviour);
             }
         }
         
         // Fallback: usar máscara por defecto
         return LayerMask.GetMask("Enemy");
     }
-    
-    /// <summary>
-    /// Método llamado cuando el arma es equipada.
-    /// </summary>
     public override void OnEquip(Transform user)
     {
         base.OnEquip(user);
@@ -115,20 +94,12 @@ public class SniperWeapon : RangedWeapon
         
         Debug.Log($"SniperWeapon: {weaponName} equipado");
     }
-    
-    /// <summary>
-    /// Método llamado cuando el arma es desequipada.
-    /// </summary>
     public override void OnUnequip(Transform user)
     {
         base.OnUnequip(user);
         
         Debug.Log($"SniperWeapon: {weaponName} desequipado");
     }
-    
-    /// <summary>
-    /// Verifica si el arma puede ser usada considerando factores específicos del sniper.
-    /// </summary>
     public override bool CanUse(float lastUseTime)
     {
         if (!base.CanUse(lastUseTime))
@@ -142,10 +113,6 @@ public class SniperWeapon : RangedWeapon
         
         return poolInitialized;
     }
-    
-    /// <summary>
-    /// Obtiene información de estado del arma.
-    /// </summary>
     public string GetStatusInfo()
     {
         string status = $"Arma: {weaponName}\n";
@@ -157,19 +124,11 @@ public class SniperWeapon : RangedWeapon
         
         return status;
     }
-    
-    /// <summary>
-    /// Configura el prefab del proyectil.
-    /// </summary>
     public void SetProjectilePrefab(GameObject prefab)
     {
         projectilePrefab = prefab;
         poolInitialized = false; // Reinicializar pool con nuevo prefab
     }
-    
-    /// <summary>
-    /// Obtiene estadísticas del pool.
-    /// </summary>
     public void PrintPoolStatistics()
     {
         if (SimpleProjectilePool.Instance != null)

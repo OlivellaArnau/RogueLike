@@ -50,8 +50,10 @@ public class UIManager : MonoBehaviour
     public void OnRestartLevelButton()
     {
         HideGameOverMenu();
-        GameManager.Instance.RestartLevel();
+        Time.timeScale = 1f;
+        GameManager.Instance.StartNewLevel();
     }
+
 
     public void OnMainMenuButton()
     {
@@ -63,5 +65,9 @@ public class UIManager : MonoBehaviour
     {
         HidePauseMenu();
         GameManager.Instance.StartNewLevel();
+    }
+    public void OnQuitButton()
+    {
+        Application.Quit();
     }
 }

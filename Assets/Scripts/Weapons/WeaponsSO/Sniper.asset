@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058481fbf85d1fe43a52fae06810df48, type: 3}
+  m_Name: Sniper
+  m_EditorClassIdentifier: 
+  weaponName: Arma Base
+  description: "Descripci\xF3n del arma"
+  weaponIcon: {fileID: 0}
+  damage: 10
+  range: 5
+  cooldown: 1
+  shopPrice: 100
+  availableFromStart: 1
+  projectileSpeed: 10
+  usePointerDirection: 1
+  spread: 0
+  projectilePrefab: {fileID: 7294910849851923435, guid: 7d5675a02e702f248b34e474a1a1304a, type: 3}
+  projectileLifetime: 3
+  penetrateEnemies: 0
+  maxPenetrations: 1
+  poolSize: 20
+  initializePoolOnEquip: 1

@@ -16,45 +16,37 @@ public class MeleeWeapon : WeaponBase
 
     public override bool UseWeapon(Transform user, Vector3 target)
     {
-        WeaponManager weaponManager = user.GetComponent<WeaponManager>();
-        if (weaponManager == null)
-        {
-            Debug.LogError("MeleeWeapon: WeaponManager no encontrado en el usuario");
-            return false;
-        }
-        
-        Combat_Behaviour combatBehaviour = weaponManager.GetCombatBehaviour();
+        Combat_Behaviour combatBehaviour = user.GetComponent<Combat_Behaviour>();
         if (combatBehaviour == null)
         {
-            Debug.LogError("MeleeWeapon: Combat_Behaviour no encontrado");
+            Debug.LogError("MeleeWeapon: Combat_Behaviour no encontrado en el usuario");
             return false;
         }
 
-        Collider2D[] enemiesInRange = weaponManager.GetEnemiesInArea(user.position, attackRadius);
-        
+        Collider2D[] enemiesInRange = combatBehaviour.GetEnemiesInArea(user.position, attackRadius);
+
         if (enemiesInRange.Length == 0)
         {
             Debug.Log("MeleeWeapon: No hay enemigos en rango");
             return false;
         }
-        
-        // Atacar enemigos encontrados
+
         int enemiesHit = 0;
         foreach (Collider2D enemyCollider in enemiesInRange)
         {
             if (enemiesHit >= maxTargets && !canHitMultipleEnemies)
                 break;
-            
+
             if (enemyCollider.CompareTag("Enemy"))
             {
                 AttackEnemy(enemyCollider.gameObject, user.position);
                 enemiesHit++;
-                
+
                 if (!canHitMultipleEnemies)
                     break;
             }
         }
-        
+
         Debug.Log($"MeleeWeapon: {weaponName} atacó a {enemiesHit} enemigos");
         return enemiesHit > 0;
     }

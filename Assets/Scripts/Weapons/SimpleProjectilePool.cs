@@ -91,30 +91,29 @@ public class SimpleProjectilePool : MonoBehaviour
     public GameObject GetProjectile()
     {
         GameObject projectile;
-        
+
         if (availableProjectiles.Count > 0)
         {
             projectile = availableProjectiles.Dequeue();
         }
-        else if (activeProjectiles.Count < maxPoolSize)
+        else if (activeProjectiles.Count + availableProjectiles.Count < maxPoolSize)
         {
             projectile = CreateNewProjectile();
-            availableProjectiles.Dequeue(); // Remover del queue ya que lo vamos a usar
+            // No hagas Dequeue aquí, ya lo estás creando directamente
         }
         else
         {
-            // Pool lleno, reutilizar el más antiguo
+            // Pool lleno, reciclar el más antiguo
             projectile = activeProjectiles[0];
             ReturnProjectile(projectile);
             projectile = availableProjectiles.Dequeue();
         }
-        
+
         projectile.SetActive(true);
         activeProjectiles.Add(projectile);
-        
+
         return projectile;
     }
-    
     public void ReturnProjectile(GameObject projectile)
     {
         if (projectile == null) return;

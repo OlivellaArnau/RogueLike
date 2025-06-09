@@ -24,15 +24,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Attack",
-                    "type": "Button",
-                    "id": "4726dc74-ee70-4218-800a-33f4d9c54f23",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Dash",
                     "type": "Button",
                     "id": "34fc7dee-21db-4313-b324-b9fed2ff1012",
@@ -79,17 +70,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "a2c4e063-d704-4c5e-92a5-5d9998ccc971",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "ff9129e6-8c14-49c6-b78c-ec417b6301c5",

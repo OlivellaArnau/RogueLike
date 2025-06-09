@@ -46,15 +46,6 @@ public partial class @PlayerBase: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Attack"",
-                    ""type"": ""Button"",
-                    ""id"": ""4726dc74-ee70-4218-800a-33f4d9c54f23"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""34fc7dee-21db-4313-b324-b9fed2ff1012"",
@@ -101,17 +92,6 @@ public partial class @PlayerBase: IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""a2c4e063-d704-4c5e-92a5-5d9998ccc971"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""ff9129e6-8c14-49c6-b78c-ec417b6301c5"",
@@ -242,7 +222,6 @@ public partial class @PlayerBase: IInputActionCollection2, IDisposable
         m_Player_Base = asset.FindActionMap("Player_Base", throwIfNotFound: true);
         m_Player_Base_Move = m_Player_Base.FindAction("Move", throwIfNotFound: true);
         m_Player_Base_Shoot = m_Player_Base.FindAction("Shoot", throwIfNotFound: true);
-        m_Player_Base_Attack = m_Player_Base.FindAction("Attack", throwIfNotFound: true);
         m_Player_Base_Dash = m_Player_Base.FindAction("Dash", throwIfNotFound: true);
         m_Player_Base_Look = m_Player_Base.FindAction("Look", throwIfNotFound: true);
         m_Player_Base_ChangeWeapon = m_Player_Base.FindAction("ChangeWeapon", throwIfNotFound: true);
@@ -316,7 +295,6 @@ public partial class @PlayerBase: IInputActionCollection2, IDisposable
     private List<IPlayer_BaseActions> m_Player_BaseActionsCallbackInterfaces = new List<IPlayer_BaseActions>();
     private readonly InputAction m_Player_Base_Move;
     private readonly InputAction m_Player_Base_Shoot;
-    private readonly InputAction m_Player_Base_Attack;
     private readonly InputAction m_Player_Base_Dash;
     private readonly InputAction m_Player_Base_Look;
     private readonly InputAction m_Player_Base_ChangeWeapon;
@@ -328,7 +306,6 @@ public partial class @PlayerBase: IInputActionCollection2, IDisposable
         public Player_BaseActions(@PlayerBase wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Base_Move;
         public InputAction @Shoot => m_Wrapper.m_Player_Base_Shoot;
-        public InputAction @Attack => m_Wrapper.m_Player_Base_Attack;
         public InputAction @Dash => m_Wrapper.m_Player_Base_Dash;
         public InputAction @Look => m_Wrapper.m_Player_Base_Look;
         public InputAction @ChangeWeapon => m_Wrapper.m_Player_Base_ChangeWeapon;
@@ -349,9 +326,6 @@ public partial class @PlayerBase: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
-            @Attack.started += instance.OnAttack;
-            @Attack.performed += instance.OnAttack;
-            @Attack.canceled += instance.OnAttack;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
@@ -377,9 +351,6 @@ public partial class @PlayerBase: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
-            @Attack.started -= instance.OnAttack;
-            @Attack.performed -= instance.OnAttack;
-            @Attack.canceled -= instance.OnAttack;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
@@ -416,7 +387,6 @@ public partial class @PlayerBase: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
-        void OnAttack(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnChangeWeapon(InputAction.CallbackContext context);

@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 5964737112576975089}
   - component: {fileID: 6604168424667393406}
   - component: {fileID: 1362125208753529300}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bomb
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -221,9 +221,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinPrefab: {fileID: 3847938325507833505, guid: be8aad9c206e26341a9dd5e1c0e07948, type: 3}
-  minCoins: 1
+  minCoins: 2
   maxCoins: 3
-  dropChance: 0.7
+  dropChance: 1
   dropForce: 3
   dropHeight: 1
   alwaysDrop: 0

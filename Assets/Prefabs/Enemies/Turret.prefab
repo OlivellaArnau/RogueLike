@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 2397451439711142490}
   m_Layer: 7
   m_Name: Turret
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0b45a09e77e330418c54a88fa567eab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 30
   currentHealth: 0
   isInvulnerable: 0
   OnHealthChanged:
@@ -234,7 +234,7 @@ MonoBehaviour:
   onDamageTaken:
     m_PersistentCalls:
       m_Calls: []
-  showDebugInfo: 0
+  showDebugInfo: 1
   currentStateName: 
   turretHead: {fileID: 8237755227153625726}
   firePoint: {fileID: 2122444423125947301}

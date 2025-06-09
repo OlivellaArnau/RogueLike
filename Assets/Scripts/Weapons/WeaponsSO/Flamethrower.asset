@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e307cb5e65f3a8e40977eda983adaab5, type: 3}
+  m_Name: Flamethrower
+  m_EditorClassIdentifier: 
+  weaponName: FT
+  description: "Descripci\xF3n del arma"
+  weaponIcon: {fileID: 0}
+  damage: 10
+  range: 5
+  cooldown: 1
+  shopPrice: 100
+  availableFromStart: 1
+  projectileSpeed: 10
+  usePointerDirection: 1
+  spread: 0
+  flamethrowerPrefab: {fileID: 1231719864989755456, guid: 2dae0d3ad4cfd4f4097c56573d61d615, type: 3}
+  damagePerSecond: 15
+  maxFlameRange: 8
+  flameWidth: 2
+  damageTickRate: 1
+  applyBurnEffect: 1
+  burnDuration: 2
+  burnDamagePerSecond: 3

@@ -17,13 +17,13 @@ public abstract class RangedWeapon : WeaponBase
     
     protected Vector3 GetFireDirection(Transform user, Vector3 target)
     {
-        WeaponManager weaponManager = user.GetComponent<WeaponManager>();
+        Combat_Behaviour combatBehaviour = user.GetComponent<Combat_Behaviour>();
         Vector3 direction;
         
-        if (usePointerDirection && weaponManager != null)
+        if (usePointerDirection && combatBehaviour != null)
         {
             // Usar dirección del pointer
-            direction = weaponManager.GetPointerDirection();
+            direction = combatBehaviour.GetPointerDirection();
         }
         else
         {
@@ -43,11 +43,11 @@ public abstract class RangedWeapon : WeaponBase
 
     protected Vector3 GetFirePosition(Transform user)
     {
-        WeaponManager weaponManager = user.GetComponent<WeaponManager>();
+        Combat_Behaviour combatBehaviour = user.GetComponent<Combat_Behaviour>();
         
-        if (weaponManager != null)
+        if (combatBehaviour != null)
         {
-            return weaponManager.GetPointerPosition();
+            return combatBehaviour.GetPointerPosition();
         }
         
         return user.position;

@@ -1,4 +1,4 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Events;
@@ -23,14 +23,14 @@ public class GameManager : MonoBehaviour
     [Tooltip("Evento que se dispara cuando el jugador muere")]
     public GameEvent onPlayerDeath = new GameEvent();
     
-    [Header("ConfiguraciÛn")]
+    [Header("Configuraci√≥n")]
     [Tooltip("Prefab del jugador")]
     [SerializeField] private GameObject playerPrefab;
 
     [Tooltip("Tiempo de espera antes de enviar al main menu despues de morir")]
     [SerializeField] private float restartDelay = 2f;
 
-    [Tooltip("øGenerar un nuevo nivel al iniciar?")]
+    [Tooltip("¬øGenerar un nuevo nivel al iniciar?")]
     [SerializeField] private bool generateOnStart = true;
     public bool IsPaused = false;
 
@@ -60,18 +60,15 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        // Configurar la c·mara principal
+        // Configurar la c√°mara principal
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
             if (mainCamera == null)
             {
-                Debug.LogError("No se encontrÛ una c·mara principal en la escena");
+                Debug.LogError("No se encontr√≥ una c√°mara principal en la escena");
             }
         }
-
-        // Obtener referencia al generador de mazmorras
-        dungeonGenerator = FindObjectOfType<DungeonGenerator>();
     }
 
     private IEnumerator Start()
@@ -79,10 +76,11 @@ public class GameManager : MonoBehaviour
         // Esperar un frame para asegurar que el DungeonGenerator se haya inicializado
         yield return null;
 
-        // Generar el nivel inicial si est· configurado
+        // Generar el nivel inicial si est√° configurado
         if (generateOnStart)
         {
             StartNewLevel();
+            generateOnStart = false; // Evitar regenerar en cada inicio
         }
     }
     public void StartNewLevel()
@@ -97,7 +95,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No se encontrÛ un DungeonGenerator en la escena");
+            Debug.LogError("No se encontr√≥ un DungeonGenerator en la escena");
             return;
         }
 
@@ -138,7 +136,7 @@ public class GameManager : MonoBehaviour
                 // Instanciar el jugador en la sala inicial
                 player = Instantiate(playerPrefab, startRoom.transform.position, Quaternion.identity);
 
-                // Configurar la c·mara
+                // Configurar la c√°mara
                 SetupCamera(player);
 
                 // Notificar a la sala que el jugador ha entrado
@@ -149,6 +147,7 @@ public class GameManager : MonoBehaviour
                 if (playerController != null)
                 {
                     playerController.SetCurrentRoom(startRoom);
+                    playerController.OnPlayerDeath += OnPlayerDeath;
                 }
             }
         }
@@ -161,13 +160,13 @@ public class GameManager : MonoBehaviour
             mainCamera = Camera.main;
             if (mainCamera == null)
             {
-                Debug.LogError("No se encontrÛ una c·mara principal en la escena");
+                Debug.LogError("No se encontr√≥ una c√°mara principal en la escena");
                 return;
             }
         }
-        // Asegurar que la posiciÛn Z se mantenga (importante para c·maras 2D)
+        // Asegurar que la posici√≥n Z se mantenga (importante para c√°maras 2D)
         float originalZ = mainCamera.transform.position.z;
-        // Configurar la posiciÛn de la c·mara para que siga al jugador
+        // Configurar la posici√≥n de la c√°mara para que siga al jugador
 
         mainCamera.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, originalZ);
 
@@ -191,7 +190,7 @@ public class GameManager : MonoBehaviour
             // Incrementar el nivel
             currentLevel++;
 
-            // Iniciar el siguiente nivel despuÈs de un retraso
+            // Iniciar el siguiente nivel despu√©s de un retraso
             StartCoroutine(StartNextLevelAfterDelay(1f));
         }
     }
@@ -205,18 +204,24 @@ public class GameManager : MonoBehaviour
         if (!isGameOver)
         {
             isGameOver = true;
-
-            // Disparar evento de muerte del jugador
             onPlayerDeath?.Invoke();
-
             Debug.Log("Jugador ha muerto");
 
-            // Reiniciar el juego despuÈs de un retraso
-            ReturnToMainMenu();
+            if (player != null)
+                player.GetComponent<PlayerController>()?.DisableInput();
+
+            // En lugar de mostrar un men√∫, volvemos al MainMenu tras un retraso opcional
+            StartCoroutine(LoadMainMenuAfterDelay(restartDelay));
+            PauseGame(); // Si quieres que se congele el juego antes del cambio
         }
-    }  
-    
-   public void PauseGame()
+    }
+    private IEnumerator LoadMainMenuAfterDelay(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay); // Usa tiempo real si el juego est√° pausado
+        Time.timeScale = 1f; // Asegura que el tiempo vuelva a la normalidad
+        SceneManager.LoadScene("MainMenu"); // Aseg√∫rate de que esta escena existe y est√° incluida en Build Settings
+    }
+    public void PauseGame()
     {
         Time.timeScale = 0f;
         IsPaused = true;
@@ -242,19 +247,36 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        StartCoroutine(RestartGameAfterDelay());
-    }
-    private IEnumerator RestartGameAfterDelay()
-    {
-        yield return new WaitForSeconds(restartDelay);
-
-        // Reiniciar el nivel actual
-        currentLevel = 1;
-        StartNewLevel();
     }
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        dungeonGenerator = UnityEngine.Object.FindFirstObjectByType<DungeonGenerator>();
+        if (dungeonGenerator != null)
+        {
+            generateOnStart = true;
+            StartCoroutine(DelayedStartNewLevel());
+        }
+    }
+
+    private IEnumerator DelayedStartNewLevel()
+    {
+        yield return null; // esperar un frame
+        StartNewLevel();
+    }
+
 }

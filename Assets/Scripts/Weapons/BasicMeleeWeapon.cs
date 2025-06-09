@@ -11,62 +11,35 @@ public class BasicMeleeWeapon : MeleeWeapon
     [SerializeField] private bool useCombatBehaviourDamage = true;
     [SerializeField] private int damageMultiplier = 1;
     [SerializeField] private bool debugMode = false;
-    
+
     /// <summary>
     /// Implementación corregida que utiliza Combat_Behaviour apropiadamente.
     /// </summary>
     public override bool UseWeapon(Transform user, Vector3 target)
     {
-        WeaponManager weaponManager = user.GetComponent<WeaponManager>();
-        if (weaponManager == null)
+        Combat_Behaviour combat = user.GetComponent<Combat_Behaviour>();
+        if (combat == null) return false;
+
+        Collider2D[] enemies = combat.GetEnemiesInArea(user.position, attackRadius);
+        if (enemies.Length == 0) return false;
+
+        int hits = 0;
+        foreach (var col in enemies)
         {
-            if (debugMode) Debug.LogError("BasicMeleeWeapon: WeaponManager no encontrado");
-            return false;
+            if (!col.CompareTag("Enemy")) continue;
+            Health hp = col.GetComponent<Health>();
+            if (hp == null) continue;
+
+            hp.TakeDamage(damage);
+            ApplyKnockback(col.gameObject, user.position);
+            hits++;
+
+            if (!canHitMultipleEnemies || hits >= maxTargets) break;
         }
-        
-        Combat_Behaviour combatBehaviour = weaponManager.GetCombatBehaviour();
-        if (combatBehaviour == null)
-        {
-            if (debugMode) Debug.LogError("BasicMeleeWeapon: Combat_Behaviour no encontrado");
-            return false;
-        }
-        
-        // Obtener enemigos en rango usando el WeaponManager
-        Collider2D[] enemiesInRange = weaponManager.GetEnemiesInArea(user.position, attackRadius);
-        
-        if (enemiesInRange.Length == 0)
-        {
-            if (debugMode) Debug.Log("BasicMeleeWeapon: No hay enemigos en rango de ataque");
-            return false;
-        }
-        
-        // Procesar ataque a enemigos
-        int enemiesHit = 0;
-        foreach (Collider2D enemyCollider in enemiesInRange)
-        {
-            if (enemiesHit >= maxTargets && !canHitMultipleEnemies)
-                break;
-            
-            if (IsValidTarget(enemyCollider))
-            {
-                bool hitSuccess = AttackEnemyImproved(enemyCollider.gameObject, user.position, combatBehaviour);
-                if (hitSuccess)
-                {
-                    enemiesHit++;
-                    
-                    if (!canHitMultipleEnemies)
-                        break;
-                }
-            }
-        }
-        
-        if (debugMode)
-        {
-            Debug.Log($"BasicMeleeWeapon: {weaponName} atacó exitosamente a {enemiesHit} enemigos");
-        }
-        
-        return enemiesHit > 0;
+
+        return hits > 0;
     }
+
     private bool IsValidTarget(Collider2D collider)
     {
         if (collider == null) return false;

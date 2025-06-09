@@ -1,59 +1,70 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
-/// <summary>
-/// Extensión del PlayerInventory para gestionar armas.
-/// Se integra con el PlayerInventory existente sin modificarlo.
-/// </summary>
 public class WeaponInventory : MonoBehaviour
 {
+    public static WeaponInventory Instance { get; private set; }
+
     [Header("Configuración de Armas")]
     [SerializeField] private WeaponBase[] availableWeapons = new WeaponBase[2]; // Sniper y Flamethrower
     [SerializeField] private bool[] weaponUnlocked = new bool[2]; // Estado de desbloqueo
     [SerializeField] private int currentWeaponIndex = -1; // -1 = melee, 0 = sniper, 1 = flamethrower
+
     
     [Header("Arma Melee por Defecto")]
     [SerializeField] private BasicMeleeWeapon defaultMeleeWeapon;
     
     // Referencias
     private PlayerInventory playerInventory;
-    private WeaponManager weaponManager;
+    private Combat_Behaviour combat_Behaviour;
     
     // Estado
     private WeaponBase currentEquippedWeapon;
     
     private void Awake()
     {
+        //Patron de SIngleton
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+        Debug.Log("WeaponInventory: Singleton inicializado correctamente");
         // Obtener componentes
         playerInventory = GetComponent<PlayerInventory>();
-        weaponManager = GetComponent<WeaponManager>();
+        combat_Behaviour = GetComponent<Combat_Behaviour>();
         
         if (playerInventory == null)
         {
             Debug.LogError("WeaponInventory: PlayerInventory no encontrado");
         }
         
-        if (weaponManager == null)
+        if (combat_Behaviour == null)
         {
             Debug.LogError("WeaponInventory: WeaponManager no encontrado");
         }
+
     }
-    
+
     private void Start()
     {
-        // Equipar arma melee por defecto
-        if (defaultMeleeWeapon != null)
-        {
-            EquipMeleeWeapon();
-        }
-        
-        // Verificar armas desbloqueadas desde el inicio
         CheckInitialUnlockedWeapons();
+
+        for (int i = 0; i < availableWeapons.Length; i++)
+        {
+            string weaponName = availableWeapons[i] != null ? availableWeapons[i].WeaponName : "null";
+            Debug.Log($"[Start] Slot {i} = {weaponName} | Unlocked: {weaponUnlocked[i]}");
+        }
+
+        currentWeaponIndex = -1;
+        EquipMeleeWeapon();
     }
-    
-    /// <summary>
-    /// Verifica qué armas están desbloqueadas desde el inicio.
-    /// </summary>
+
+
     private void CheckInitialUnlockedWeapons()
     {
         for (int i = 0; i < availableWeapons.Length; i++)
@@ -65,25 +76,17 @@ public class WeaponInventory : MonoBehaviour
             }
         }
     }
-    
-    /// <summary>
-    /// Equipa el arma melee por defecto.
-    /// </summary>
     public void EquipMeleeWeapon()
     {
-        if (defaultMeleeWeapon != null && weaponManager != null)
+        if (defaultMeleeWeapon != null && combat_Behaviour != null)
         {
-            weaponManager.EquipWeapon(defaultMeleeWeapon);
+            combat_Behaviour.EquipWeapon(defaultMeleeWeapon);
             currentEquippedWeapon = defaultMeleeWeapon;
             currentWeaponIndex = -1;
             
             Debug.Log($"WeaponInventory: Equipado arma melee - {defaultMeleeWeapon.WeaponName}");
         }
     }
-    
-    /// <summary>
-    /// Equipa un arma ranged por índice.
-    /// </summary>
     public bool EquipRangedWeapon(int weaponIndex)
     {
         if (weaponIndex < 0 || weaponIndex >= availableWeapons.Length)
@@ -105,9 +108,9 @@ public class WeaponInventory : MonoBehaviour
             return false;
         }
         
-        if (weaponManager != null)
+        if (combat_Behaviour != null)
         {
-            weaponManager.EquipWeapon(weapon);
+            combat_Behaviour.EquipWeapon(weapon);
             currentEquippedWeapon = weapon;
             currentWeaponIndex = weaponIndex;
             
@@ -117,59 +120,32 @@ public class WeaponInventory : MonoBehaviour
         
         return false;
     }
-    
-    /// <summary>
-    /// Cambia a la siguiente arma disponible.
-    /// </summary>
     public void SwitchToNextWeapon()
     {
-        int nextIndex = currentWeaponIndex + 1;
-        
-        // Buscar la siguiente arma desbloqueada
-        for (int i = 0; i < availableWeapons.Length + 1; i++) // +1 para incluir melee
+        int totalWeapons = availableWeapons.Length;
+
+        int nextIndex = currentWeaponIndex;
+
+        do
         {
-            int checkIndex = (nextIndex + i) % (availableWeapons.Length + 1) - 1; // -1 para melee
-            
-            if (checkIndex == -1)
-            {
-                // Arma melee
-                EquipMeleeWeapon();
-                return;
-            }
-            else if (checkIndex >= 0 && checkIndex < availableWeapons.Length && weaponUnlocked[checkIndex])
-            {
-                EquipRangedWeapon(checkIndex);
-                return;
-            }
+            nextIndex++;
+            if (nextIndex >= totalWeapons)
+                nextIndex = -1; // volver al melee
         }
-        
-        Debug.Log("WeaponInventory: No hay más armas disponibles");
-    }
-    
-    /// <summary>
-    /// Cambia a un slot específico de arma.
-    /// </summary>
-    public void SwitchToWeaponSlot(int slotIndex)
-    {
-        if (slotIndex == 0)
+        while (nextIndex != -1 && !weaponUnlocked[nextIndex]);
+
+        Debug.Log($"[WeaponInventory] Cambiando a índice: {nextIndex}");
+
+        if (nextIndex == -1)
         {
-            // Slot 0 = Melee
             EquipMeleeWeapon();
-        }
-        else if (slotIndex >= 1 && slotIndex <= availableWeapons.Length)
-        {
-            // Slots 1-2 = Armas ranged
-            EquipRangedWeapon(slotIndex - 1);
         }
         else
         {
-            Debug.LogWarning($"WeaponInventory: Slot inválido: {slotIndex}");
+            EquipRangedWeapon(nextIndex);
         }
     }
-    
-    /// <summary>
-    /// Desbloquea un arma mediante compra.
-    /// </summary>
+
     public bool UnlockWeapon(int weaponIndex, bool spendCoins = true)
     {
         if (weaponIndex < 0 || weaponIndex >= availableWeapons.Length)
@@ -210,10 +186,6 @@ public class WeaponInventory : MonoBehaviour
         
         return true;
     }
-    
-    /// <summary>
-    /// Verifica si el jugador tiene suficientes monedas.
-    /// </summary>
     private bool HasEnoughCoins(int requiredCoins)
     {
         if (playerInventory == null) return false;
@@ -249,10 +221,6 @@ public class WeaponInventory : MonoBehaviour
         Debug.LogWarning("WeaponInventory: No se pudo verificar monedas, asumiendo suficientes");
         return true;
     }
-    
-    /// <summary>
-    /// Gasta monedas del inventario.
-    /// </summary>
     private void SpendCoins(int amount)
     {
         if (playerInventory == null) return;
@@ -287,26 +255,14 @@ public class WeaponInventory : MonoBehaviour
         
         Debug.LogWarning("WeaponInventory: No se pudieron gastar las monedas");
     }
-    
-    /// <summary>
-    /// Obtiene información del arma actual.
-    /// </summary>
     public WeaponBase GetCurrentWeapon()
     {
         return currentEquippedWeapon;
     }
-    
-    /// <summary>
-    /// Obtiene el índice del arma actual.
-    /// </summary>
     public int GetCurrentWeaponIndex()
     {
         return currentWeaponIndex;
     }
-    
-    /// <summary>
-    /// Verifica si un arma está desbloqueada.
-    /// </summary>
     public bool IsWeaponUnlocked(int weaponIndex)
     {
         if (weaponIndex < 0 || weaponIndex >= weaponUnlocked.Length)
@@ -314,37 +270,24 @@ public class WeaponInventory : MonoBehaviour
         
         return weaponUnlocked[weaponIndex];
     }
-    
-    /// <summary>
-    /// Obtiene información de un arma por índice.
-    /// </summary>
     public WeaponBase GetWeaponByIndex(int weaponIndex)
     {
+        if (weaponIndex == -1)
+            return defaultMeleeWeapon;
+
         if (weaponIndex < 0 || weaponIndex >= availableWeapons.Length)
             return null;
-        
+
         return availableWeapons[weaponIndex];
     }
-    
-    /// <summary>
-    /// Obtiene todas las armas disponibles.
-    /// </summary>
     public WeaponBase[] GetAllWeapons()
     {
         return availableWeapons;
     }
-    
-    /// <summary>
-    /// Obtiene el estado de desbloqueo de todas las armas.
-    /// </summary>
     public bool[] GetUnlockStatus()
     {
         return (bool[])weaponUnlocked.Clone();
     }
-    
-    /// <summary>
-    /// Configura un arma en un slot específico.
-    /// </summary>
     public void SetWeapon(int weaponIndex, WeaponBase weapon)
     {
         if (weaponIndex >= 0 && weaponIndex < availableWeapons.Length)
@@ -353,10 +296,6 @@ public class WeaponInventory : MonoBehaviour
             Debug.Log($"WeaponInventory: Arma {weapon?.WeaponName} asignada al slot {weaponIndex}");
         }
     }
-    
-    /// <summary>
-    /// Configura el arma melee por defecto.
-    /// </summary>
     public void SetDefaultMeleeWeapon(BasicMeleeWeapon meleeWeapon)
     {
         defaultMeleeWeapon = meleeWeapon;
@@ -367,5 +306,15 @@ public class WeaponInventory : MonoBehaviour
             EquipMeleeWeapon();
         }
     }
+    public int GetWeaponIndex(WeaponBase weapon)
+    {
+        for (int i = 0; i < availableWeapons.Length; i++)
+        {
+            if (availableWeapons[i] == weapon)
+                return i;
+        }
+        return -1;
+    }
+
 }
 

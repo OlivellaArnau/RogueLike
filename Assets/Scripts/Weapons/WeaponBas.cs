@@ -1,4 +1,6 @@
 using UnityEngine;
+using System;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Clase base para todas las armas del juego.
@@ -7,7 +9,7 @@ using UnityEngine;
 public abstract class WeaponBase : ScriptableObject
 {
     [Header("Información Básica")]
-    [SerializeField] protected string weaponName = "Arma Base";
+    [SerializeField] protected string weaponName;
     [SerializeField] protected string description = "Descripción del arma";
     [SerializeField] protected Sprite weaponIcon;
     
@@ -15,9 +17,9 @@ public abstract class WeaponBase : ScriptableObject
     [SerializeField] protected int damage = 10;
     [SerializeField] protected float range = 5f;
     [SerializeField] protected float cooldown = 1f;
-    
+
     [Header("Tienda")]
-    [SerializeField] protected int shopPrice = 100;
+    [SerializeField] protected int shopPrice;
     [SerializeField] protected bool availableFromStart = false;
     
     // Propiedades públicas

@@ -1,77 +1,129 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class Combat_Behaviour : MonoBehaviour
 {
-    [SerializeField] private GameObject pointer; 
-    [SerializeField] private float meleeAttackDuration = 0.2f; 
-    [SerializeField] private float meleeCooldown = 1f;
+    [Header("Sistema de Armas")]
+    [SerializeField] private WeaponBase currentWeapon;
+    [SerializeField] private Transform pointer; // Dirección de disparo
+    [SerializeField] private LayerMask enemyLayerMask;
+
+    [Header("Estado")]
+    private float lastWeaponUseTime = 0f;
+    private bool isUsingWeapon = false;
+
+    // Referencias
     private Animator animator;
-    private bool isAttacking;
-    private bool canAttack = true; 
+    private Look_Behaviour lookBehaviour;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        if (pointer != null)
+        lookBehaviour = GetComponent<Look_Behaviour>();
+
+        if (pointer == null)
         {
-            pointer.SetActive(false); 
+            Transform foundPointer = transform.Find("pointer");
+            if (foundPointer != null) pointer = foundPointer;
+            if (pointer == null)
+                Debug.LogError("Pointer no asignado en Combat_Behaviour");
         }
     }
-
-    public void MeleeAttack()
+    private void Update()
     {
-        if (!isAttacking && canAttack)
+        HandleInput();
+        UpdateAnimator();
+    }
+    private void HandleInput()
+    {
+        if (currentWeapon == null)
         {
-            StartCoroutine(MeleeAttackCoroutine());
-        }
-        else if (!canAttack)
-        {
-            Debug.Log("Attack is on cooldown!");
+            Debug.LogWarning("No hay arma equipada");
+            return;
         }
     }
-
-    private IEnumerator MeleeAttackCoroutine()
+    private void UseCurrentWeapon()
     {
-        canAttack = false; 
-        isAttacking = true;
+        Debug.Log($"[WeaponSO] {currentWeapon.WeaponName} usado");
+        if (Input.GetMouseButton(0))
+
+        if (!currentWeapon.CanUse(lastWeaponUseTime))
+            Debug.Log("Arma en cooldown");
+
+        isUsingWeapon = true;
+        Vector3 target = GetTargetPosition();
+
+        bool used = currentWeapon.UseWeapon(transform, target);
+        if (used)
+        {
+            lastWeaponUseTime = Time.time;
+        }
+
+        isUsingWeapon = false;
+    }
+
+    private Vector3 GetTargetPosition()
+    {
+        if (currentWeapon is MeleeWeapon) return transform.position;
 
         if (pointer != null)
-        {
-            pointer.SetActive(true);
-            Debug.Log("Pointer activated for melee attack.");
-        }
+            return transform.position + pointer.right * currentWeapon.Range;
 
-        UpdateAnimatorParameters();
-
-        yield return new WaitForSeconds(meleeAttackDuration);
-
-        if (pointer != null)
-        {
-            pointer.SetActive(false);
-        }
-
-        isAttacking = false;
-        UpdateAnimatorParameters();
-
-        yield return new WaitForSeconds(meleeCooldown);
-
-        canAttack = true;
+        Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorld.z = transform.position.z;
+        return mouseWorld;
     }
-    
-    public void SetWeapon()
-    {
-         
-    }
-    private void UpdateAnimatorParameters()
+
+    private void UpdateAnimator()
     {
         if (animator != null)
+            animator.SetBool("IsAttacking", isUsingWeapon);
+    }
+
+    public void EquipWeapon(WeaponBase weapon)
+    {
+        if (currentWeapon != null)
+            currentWeapon.OnUnequip(transform);
+
+        currentWeapon = weapon;
+
+        if (currentWeapon != null)
+            currentWeapon.OnEquip(transform);
+
+        Debug.Log($"[Combat] Arma equipada: {currentWeapon?.WeaponName}");
+    }
+
+    public WeaponBase GetCurrentWeapon() => currentWeapon;
+
+    public Collider2D[] GetEnemiesInArea(Vector3 center, float radius)
+    {
+        return Physics2D.OverlapCircleAll(center, radius, enemyLayerMask);
+    }
+
+    public RaycastHit2D GetEnemyInDirection(Vector3 origin, Vector3 direction, float distance)
+    {
+        return Physics2D.Raycast(origin, direction, distance, enemyLayerMask);
+    }
+
+    public Vector3 GetPointerDirection() => pointer != null ? pointer.right : Vector3.right;
+
+    public Vector3 GetPointerPosition() => pointer != null ? pointer.position : transform.position;
+
+    public LayerMask GetEnemyLayerMask() => enemyLayerMask;
+
+    public void Shoot()
+    {
+        Debug.Log("[Combat] Shoot() llamado");
+
+        if (currentWeapon != null)
         {
-            animator.SetBool("IsAttacking", isAttacking);
+            Debug.Log("[Combat] currentWeapon NO es null");
+            UseCurrentWeapon();
         }
         else
         {
-            Debug.LogError("Animator is null!");
+            Debug.Log("[Combat] currentWeapon es null");
         }
+        // Asegurarse de que currentWeapon no sea null antes de usarlo
     }
 }

@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour, PlayerBase.IPlayer_BaseActions
     private Combat_Behaviour combatBehaviour;
     private Camera mainCamera;
     private PlayerBase playerInputActions;
+    private WeaponInventory weaponInventory;
     private Vector2 pointerPosition;
     private Vector2 movementValue;
     private bool isRunning;
@@ -33,7 +34,9 @@ public class PlayerController : MonoBehaviour, PlayerBase.IPlayer_BaseActions
         if (health != null)
         {
             health.SetMaxHealth(MaxHealth);
+            health.OnDeath.AddListener(HandlePlayerDeath);
         }
+        weaponInventory = GetComponent<WeaponInventory>();
         mainCamera = Camera.main;
         playerInputActions = new PlayerBase();
         playerInputActions.Player_Base.SetCallbacks(this);
@@ -73,33 +76,31 @@ public class PlayerController : MonoBehaviour, PlayerBase.IPlayer_BaseActions
             movementBehaviour.Dash();
         }
     }
-
-    public void OnAttack(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            Debug.Log("Attack triggered."); // Replace with actual implementation
-            combatBehaviour.MeleeAttack();
-
-        }
-    }
-
     public void OnBuyWeapon(InputAction.CallbackContext context)
     {
-        Debug.Log("Weapon_Bought context"); // Replace with actual implementation
+        if (!context.performed) return;
+
+        // Buscar en la escena si hay algún vendedor cerca
+        WeaponShopItem[] shops = FindObjectsOfType<WeaponShopItem>();
+        foreach (var shop in shops)
+        {
+            shop.TryPurchase();
+        }
     }
     public void OnChangeWeapon(InputAction.CallbackContext context)
     {
-        if(context.performed)
+        if (context.performed && weaponInventory != null)
         {
-            Debug.Log("Weapon_Changed context");
+            Debug.Log("[PlayerController] Cambio de arma solicitado");
+            weaponInventory.SwitchToNextWeapon();
         }
     }
     public void OnShoot(InputAction.CallbackContext context)
     { 
         if(context.performed)
         {
-            Debug.Log("Shoot Performed");
+            Debug.Log("[Player] OnShoot triggered");
+            combatBehaviour.Shoot();
         }
     }
     public void OnLook(InputAction.CallbackContext context)
@@ -200,6 +201,17 @@ public class PlayerController : MonoBehaviour, PlayerBase.IPlayer_BaseActions
             // Aquí se podría implementar la lógica de muerte del jugador, como reiniciar la escena o mostrar un menú de Game Over
             Debug.Log("El jugador ha muerto.");
         }
+
+    }
+    private void HandlePlayerDeath()
+    {
+        Debug.Log("Jugador ha muerto - notificado desde Health");
+
+        // Lógica propia
+        OnPlayerDeath?.Invoke();
+
+        // Notificar al GameManager
+        GameManager.Instance?.OnPlayerDeath();
     }
     public bool BuyItem(int cost, string itemname)
     {
@@ -209,4 +221,9 @@ public class PlayerController : MonoBehaviour, PlayerBase.IPlayer_BaseActions
         Debug.Log($"Intentando comprar el item: {itemname} por {cost} monedas.");
         return true; // Simulación de compra exitosa
     }
+    public void DisableInput()
+    {
+        this.enabled = false;
+    }
+
 }

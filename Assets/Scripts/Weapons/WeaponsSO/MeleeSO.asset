@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df78544156651114e8b5f068da2420a4, type: 3}
+  m_Name: MeleeSO
+  m_EditorClassIdentifier: 
+  weaponName: Arma Base
+  description: "Descripci\xF3n del arma"
+  weaponIcon: {fileID: 0}
+  damage: 10
+  range: 5
+  cooldown: 1
+  shopPrice: 100
+  availableFromStart: 1
+  attackRadius: 1.5
+  knockbackForce: 5
+  canHitMultipleEnemies: 1
+  maxTargets: 3
+  useCombatBehaviourDamage: 1
+  damageMultiplier: 1
+  debugMode: 0
