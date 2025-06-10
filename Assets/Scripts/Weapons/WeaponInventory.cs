@@ -308,13 +308,15 @@ public class WeaponInventory : MonoBehaviour
     }
     public int GetWeaponIndex(WeaponBase weapon)
     {
+        if (weapon == null) return -1;
+
         for (int i = 0; i < availableWeapons.Length; i++)
         {
-            if (availableWeapons[i] == weapon)
+            if (availableWeapons[i] != null && availableWeapons[i].WeaponName == weapon.WeaponName)
                 return i;
         }
+
         return -1;
     }
-
 }
 

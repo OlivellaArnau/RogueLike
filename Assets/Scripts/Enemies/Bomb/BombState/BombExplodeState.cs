@@ -129,11 +129,12 @@ public class BombExplodeState : EnemyStateBase
             }
         }
 
-        // Notificar a la sala que el enemigo ha muerto (si está en una)
+        // Notificar a la sala que el enemigo ha muerto
         Room room = enemy.GetComponentInParent<Room>();
         if (room != null)
         {
-            room.SendMessage("OnEnemyDefeated", enemy); // Reutiliza la lógica de OnEnemyDefeated
+            // En lugar de SendMessage, llamamos directamente al método que necesita
+            room.OnEnemyDefeated(enemy.gameObject);
         }
 
         // Reproducir sonido antes de destruir
@@ -145,6 +146,5 @@ public class BombExplodeState : EnemyStateBase
         // Destruir el enemigo después de un pequeño retraso para que se vea la animación
         Object.Destroy(enemy.gameObject, 0.2f);
     }
-
 }
 

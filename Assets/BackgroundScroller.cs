@@ -13,6 +13,7 @@ public class BackgroundScroller : MonoBehaviour
     [Header("Visió i càmera")]
     public Transform cameraTransform;
     public float bufferTiles = 2f;
+    private Vector3 lastCameraPosition;
 
     private HashSet<Vector2Int> spawnedTiles = new HashSet<Vector2Int>();
     private Dictionary<Vector2Int, GameObject> activeTiles = new Dictionary<Vector2Int, GameObject>();
@@ -37,12 +38,19 @@ public class BackgroundScroller : MonoBehaviour
                 SpawnTile(new Vector2Int(x, y));
             }
         }
+        lastCameraPosition = cameraTransform.position;
     }
 
     private void Update()
     {
+        if (Vector3.Distance(lastCameraPosition, cameraTransform.position) > tileSize * 2f)
+        {
+            RecenterTiles();
+        }
         MoveAllTiles();
         CheckAndSpawnAroundCamera();
+        lastCameraPosition = cameraTransform.position;
+        RecycleDistantTiles();
     }
 
     private void MoveAllTiles()
@@ -102,4 +110,64 @@ public class BackgroundScroller : MonoBehaviour
             return Instantiate(backgroundTilePrefab);
         }
     }
+    private void RecenterTiles()
+    {
+        foreach (var tile in activeTiles.Values)
+        {
+            tile.SetActive(false);
+            tilePool.Enqueue(tile);
+        }
+
+        spawnedTiles.Clear();
+        activeTiles.Clear();
+
+        Vector2 camPos = cameraTransform.position;
+        int halfX = initialGridSizeX / 2;
+        int halfY = initialGridSizeY / 2;
+
+        for (int x = -halfX; x <= halfX; x++)
+        {
+            for (int y = -halfY; y <= halfY; y++)
+            {
+                Vector2Int coord = new Vector2Int(x, y);
+                SpawnTile(coord + WorldToGrid(camPos));
+            }
+        }
+    }
+
+    private Vector2Int WorldToGrid(Vector2 worldPos)
+    {
+        return new Vector2Int(
+            Mathf.RoundToInt(worldPos.x / tileSize),
+            Mathf.RoundToInt(worldPos.y / tileSize)
+        );
+    }
+    private void RecycleDistantTiles()
+    {
+        Vector2 camPos = cameraTransform.position;
+        float camWidth = Camera.main.orthographicSize * Camera.main.aspect;
+        float camHeight = Camera.main.orthographicSize;
+
+        List<Vector2Int> toRemove = new List<Vector2Int>();
+
+        foreach (var kvp in activeTiles)
+        {
+            Vector3 tilePos = kvp.Value.transform.position;
+            if (Mathf.Abs(tilePos.x - camPos.x) > camWidth + tileSize * bufferTiles * 2 ||
+                Mathf.Abs(tilePos.y - camPos.y) > camHeight + tileSize * bufferTiles * 2)
+            {
+                kvp.Value.SetActive(false);
+                tilePool.Enqueue(kvp.Value);
+                toRemove.Add(kvp.Key);
+            }
+        }
+
+        foreach (var key in toRemove)
+        {
+            activeTiles.Remove(key);
+            spawnedTiles.Remove(key);
+        }
+    }
+
+
 }

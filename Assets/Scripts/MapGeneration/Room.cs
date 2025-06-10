@@ -227,7 +227,7 @@ public class Room : MonoBehaviour
         
         activeEnemies.Clear();
     }
-    private void OnEnemyDefeated(GameObject enemy)
+    public void OnEnemyDefeated(GameObject enemy)
     {
         // Remover el enemigo de la lista
         activeEnemies.Remove(enemy);

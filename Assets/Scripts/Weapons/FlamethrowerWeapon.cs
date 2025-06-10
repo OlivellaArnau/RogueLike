@@ -1,10 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-/// <summary>
-/// Arma Flamethrower que utiliza ParticleSystem para daño continuo.
-/// Aplica daño mientras las partículas colisionan con enemigos.
-/// </summary>
 [CreateAssetMenu(fileName = "New Flamethrower Weapon", menuName = "Weapons/Flamethrower Weapon")]
 public class FlamethrowerWeapon : RangedWeapon
 {
@@ -15,19 +11,11 @@ public class FlamethrowerWeapon : RangedWeapon
     [SerializeField] private float flameWidth = 2f;
     [SerializeField] private int damageTickRate = 1; // Cada cuánto aplicar daño
     
-    [Header("Efectos")]
-    [SerializeField] private bool applyBurnEffect = true;
-    [SerializeField] private float burnDuration = 2f;
-    [SerializeField] private int burnDamagePerSecond = 3;
-    
     // Estado del arma
     private GameObject activeFlamethrower;
     private FlamethrowerController flamethrowerController;
     private bool isActive = false;
-    
-    /// <summary>
-    /// Implementación del uso del lanzallamas.
-    /// </summary>
+
     public override bool UseWeapon(Transform user, Vector3 target)
     {
         if (isActive)
@@ -42,10 +30,6 @@ public class FlamethrowerWeapon : RangedWeapon
             return StartFlamethrower(user, target);
         }
     }
-    
-    /// <summary>
-    /// Inicia el lanzallamas.
-    /// </summary>
     private bool StartFlamethrower(Transform user, Vector3 target)
     {
         // Crear o activar el lanzallamas
@@ -84,10 +68,7 @@ public class FlamethrowerWeapon : RangedWeapon
         Debug.LogError("FlamethrowerWeapon: No se pudo crear FlamethrowerController");
         return false;
     }
-    
-    /// <summary>
-    /// Continúa el efecto del lanzallamas.
-    /// </summary>
+
     private void ContinueFlamethrower(Transform user, Vector3 target)
     {
         if (flamethrowerController != null)
@@ -96,10 +77,7 @@ public class FlamethrowerWeapon : RangedWeapon
             flamethrowerController.UpdateDirection(fireDirection);
         }
     }
-    
-    /// <summary>
-    /// Detiene el lanzallamas.
-    /// </summary>
+
     public void StopFlamethrower()
     {
         if (flamethrowerController != null)
@@ -110,10 +88,7 @@ public class FlamethrowerWeapon : RangedWeapon
         isActive = false;
         Debug.Log($"FlamethrowerWeapon: {weaponName} desactivado");
     }
-    
-    /// <summary>
-    /// Crea un objeto lanzallamas proceduralmente.
-    /// </summary>
+
     private GameObject CreateFlamethrowerObject(Transform user)
     {
         GameObject flamethrowerGO = new GameObject("Flamethrower");
@@ -126,10 +101,7 @@ public class FlamethrowerWeapon : RangedWeapon
         
         return flamethrowerGO;
     }
-    
-    /// <summary>
-    /// Configura el ParticleSystem para el lanzallamas.
-    /// </summary>
+
     private void ConfigureParticleSystem(ParticleSystem particles)
     {
         var main = particles.main;
@@ -156,28 +128,19 @@ public class FlamethrowerWeapon : RangedWeapon
         trigger.enabled = true;
         trigger.inside = ParticleSystemOverlapAction.Callback;
     }
-    
-    /// <summary>
-    /// Verifica si el arma puede ser usada.
-    /// </summary>
+
     public override bool CanUse(float lastUseTime)
     {
         // El lanzallamas puede usarse continuamente
         return true;
     }
-    
-    /// <summary>
-    /// Método llamado cuando el arma es equipada.
-    /// </summary>
+
     public override void OnEquip(Transform user)
     {
         base.OnEquip(user);
         Debug.Log($"FlamethrowerWeapon: {weaponName} equipado");
     }
-    
-    /// <summary>
-    /// Método llamado cuando el arma es desequipada.
-    /// </summary>
+
     public override void OnUnequip(Transform user)
     {
         base.OnUnequip(user);
@@ -205,9 +168,6 @@ public class FlamethrowerWeapon : RangedWeapon
     public float MaxFlameRange => maxFlameRange;
     public float FlameWidth => flameWidth;
     
-    /// <summary>
-    /// Verifica si el lanzallamas está activo.
-    /// </summary>
     public bool IsActive => isActive;
 }
 

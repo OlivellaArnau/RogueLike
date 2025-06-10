@@ -1,8 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// Componente que se añade a proyectiles para gestionar su ciclo de vida en el pool.
-/// </summary>
 public class PooledProjectile : MonoBehaviour
 {
     [Header("Configuración")]
@@ -32,7 +29,7 @@ public class PooledProjectile : MonoBehaviour
 
     private void OnEnable()
     {
-        isActive = false; // Aún no está listo hasta que se inicialice con parámetros
+        isActive = false;
     }
 
 
@@ -73,20 +70,7 @@ public class PooledProjectile : MonoBehaviour
             // Retornar al pool
             ReturnToPool();
         }
-        // Verificar obstáculos (paredes, etc.)
-        else if (other.CompareTag("Obstacle") || other.CompareTag("Wall"))
-        {
-            Debug.Log($"Proyectil colisionó con {other.name}, retornando al pool");
-            ReturnToPool();
-        }
-        {
-            ReturnToPool();
-        }
     }
-
-    /// <summary>
-    /// Inicializa el proyectil con parámetros específicos.
-    /// </summary>
     public void Initialize(Vector3 startPosition, Vector3 fireDirection, int projectileDamage, float projectileSpeed)
     {
         transform.position = startPosition;
@@ -112,17 +96,10 @@ public class PooledProjectile : MonoBehaviour
 
         Debug.Log($"Proyectil inicializado: Posición {startPosition}, Dirección {direction}, Daño {damage}, Velocidad {speed}");
     }
-    /// <summary>
-    /// Establece la referencia al pool.
-    /// </summary>
     public void SetPool(SimpleProjectilePool projectilePool)
     {
         pool = projectilePool;
     }
-    
-    /// <summary>
-    /// Retorna el proyectil al pool.
-    /// </summary>
     public void ReturnToPool()
     {
         if (!isActive) return;
@@ -146,23 +123,14 @@ public class PooledProjectile : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-    
-    /// <summary>
-    /// Verifica si el proyectil está fuera de los límites del mundo.
-    /// </summary>
     private bool IsOutOfBounds()
     {
         Vector3 pos = transform.position;
         
-        // Límites básicos (pueden ajustarse según el juego)
         float maxDistance = 100000f;
         
         return Mathf.Abs(pos.x) > maxDistance || Mathf.Abs(pos.y) > maxDistance;
     }
-    
-    /// <summary>
-    /// Verifica si un layer está en una LayerMask.
-    /// </summary>
     private bool IsInLayerMask(int layer, LayerMask layerMask)
     {
         return (layerMask.value & (1 << layer)) != 0;
@@ -171,10 +139,6 @@ public class PooledProjectile : MonoBehaviour
     {
         lifetime = newLifetime;
     }
-    
-    /// <summary>
-    /// Configura la máscara de capas de enemigos.
-    /// </summary>
     public void SetEnemyLayerMask(LayerMask mask)
     {
         enemyLayerMask = mask;
