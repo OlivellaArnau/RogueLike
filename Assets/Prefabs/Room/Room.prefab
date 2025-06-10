@@ -14052,7 +14052,7 @@ MonoBehaviour:
   doorRenderer: {fileID: 0}
   doorCollider: {fileID: 0}
   unlockEffect: {fileID: 0}
-  unlockSound: {fileID: 0}
+  unlockSound: {fileID: 8300000, guid: 54f450a2f1640fc4a964ed3e49b45b47, type: 3}
   unlockDelay: 1
 --- !u!1 &8870733068938986260
 GameObject:
