@@ -14031,8 +14031,7 @@ MonoBehaviour:
   - {fileID: 4981551385582512493}
   shopItemTransforms:
   - {fileID: 3037239617678535084}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8802715893387490781}
   debugMode: 0
 --- !u!114 &6932562527293977496
 MonoBehaviour:

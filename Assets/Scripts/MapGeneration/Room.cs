@@ -244,14 +244,14 @@ public class Room : MonoBehaviour
             {
                 Debug.Log($"Todos los enemigos derrotados en la sala {gridPosition}");
             }
-            
+
             // Si esta es la sala de evento especial, activar el evento
             if (roomType == RoomType.SpecialEvent)
             {
-                // Comprobar si todas las salas han sido visitadas
                 if (DungeonGenerator.Instance.AreAllRoomsVisited())
                 {
-                    ActivateSpecialEvent();
+                    Debug.Log("Todas las salas visitadas y enemigos derrotados. Generando el siguiente nivel...");
+                    DungeonGenerator.Instance.GenerateNextFloor();
                 }
             }
         }

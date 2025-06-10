@@ -15,8 +15,8 @@ MonoBehaviour:
   enemyName: Turret
   maxHealth: 100
   detectionRange: 5
-  damage: 10
-  attackCooldown: 0.1
+  damage: 2
+  attackCooldown: 1
   moveSpeed: 0
   rotationSpeed: 180
   dropChance: 0.5
@@ -24,5 +24,5 @@ MonoBehaviour:
   maxRotationAngle: 180
   canRotate360: 1
   maxShootRange: 15
-  accuracy: 0.8
-  detectionDelay: 0.1
+  accuracy: 0.61
+  detectionDelay: 0.2

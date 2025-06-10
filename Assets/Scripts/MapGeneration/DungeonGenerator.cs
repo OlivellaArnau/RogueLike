@@ -116,10 +116,9 @@ public class DungeonGenerator : MonoBehaviour
         
         // Generar la matriz de salas
         GenerateRooms();
-        
-        // Seleccionar salas especiales
+
         SelectSpecialRooms();
-        
+
         // Configurar las conexiones entre salas
         SetupRoomConnections();
         
@@ -400,6 +399,15 @@ public class DungeonGenerator : MonoBehaviour
         random = new System.Random(seed);
         GenerateDungeon();
     }
+    public void GenerateNextFloor()
+    {
+        Debug.Log("Generando el siguiente nivel...");
+        // Aquí puedes limpiar el nivel actual y generar el nuevo
+        // Por ejemplo:
+        ClearDungeon();
+        GenerateDungeon();
+    }
+
 }
 public enum RoomType
 {

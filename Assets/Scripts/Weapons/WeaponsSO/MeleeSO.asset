@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Arma Base
   description: "Descripci\xF3n del arma"
-  weaponIcon: {fileID: 0}
+  weaponIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   damage: 10
   range: 5
   cooldown: 1
   shopPrice: 100
   availableFromStart: 1
   attackRadius: 1.5
-  knockbackForce: 5
+  knockbackForce: 7.12
   canHitMultipleEnemies: 1
   maxTargets: 3
   useCombatBehaviourDamage: 1

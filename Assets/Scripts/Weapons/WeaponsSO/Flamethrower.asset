@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: FT
   description: "Descripci\xF3n del arma"
-  weaponIcon: {fileID: 0}
+  weaponIcon: {fileID: -471273712638046183, guid: 72af62d6983d00149b2b76eb1012815a, type: 3}
   damage: 10
   range: 5
   cooldown: 1
-  shopPrice: 100
-  availableFromStart: 1
+  shopPrice: 10
+  availableFromStart: 0
   projectileSpeed: 10
   usePointerDirection: 1
   spread: 0

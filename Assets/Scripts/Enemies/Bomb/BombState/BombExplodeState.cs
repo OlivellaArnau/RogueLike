@@ -81,6 +81,7 @@ public class BombExplodeState : EnemyStateBase
         return null;
     }
 
+    // MODIFICACIÓN EN BombExplodeState.cs
     private void Explode(EnemyController enemy)
     {
         // Activar animación de explosión
@@ -88,54 +89,38 @@ public class BombExplodeState : EnemyStateBase
         {
             enemy.Animator.SetTrigger("Explode");
         }
-        
+
         // Crear efecto visual de explosión
         if (explosionEffectPrefab != null)
         {
-            Object.Instantiate(
-                explosionEffectPrefab, 
-                enemy.transform.position, 
-                Quaternion.identity
-            );
+            Object.Instantiate(explosionEffectPrefab, enemy.transform.position, Quaternion.identity);
         }
-        
+
         // Detectar objetos en el radio de explosión
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(
-            enemy.transform.position, 
-            explosionRadius, 
-            affectedLayers
-        );
-        
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(enemy.transform.position, explosionRadius, affectedLayers);
+
         foreach (Collider2D collider in colliders)
         {
-            // No afectar al propio enemigo
-            if (collider.gameObject == enemy.gameObject)
-                continue;
-                
-            // Calcular daño basado en la distancia
+            if (collider.gameObject == enemy.gameObject) continue;
+
             float distance = Vector2.Distance(enemy.transform.position, collider.transform.position);
             float damageRatio = 1f - (distance / explosionRadius);
             int damage = Mathf.RoundToInt(enemy.EnemyData.Damage * damageMultiplier * damageRatio);
-            
-            // Si es el jugador y está configurado para no dañarlo, saltarlo
-            if (collider.CompareTag("Player") && !damagePlayer)
-                continue;
-                
-            // Aplicar daño si tiene componente de salud
+
+            if (collider.CompareTag("Player") && !damagePlayer) continue;
+
             Health health = collider.GetComponent<Health>();
             if (health != null && damage > 0)
             {
                 health.TakeDamage(damage);
             }
-            
-            // Aplicar fuerza si tiene Rigidbody2D
+
             Rigidbody2D rb = collider.GetComponent<Rigidbody2D>();
-            if (rb != null)
+            if (rb != null && damage > 0)
             {
-                Vector2 direction = collider.transform.position - enemy.transform.position;
+                Vector2 direction = (collider.transform.position - enemy.transform.position);
                 float forceMagnitude = explosionForce * (1f - Mathf.Clamp01(distance / explosionRadius));
-                
-                // Evitar división por cero
+
                 if (direction.sqrMagnitude > 0.001f)
                 {
                     direction.Normalize();
@@ -143,10 +128,23 @@ public class BombExplodeState : EnemyStateBase
                 }
             }
         }
-        
+
+        // Notificar a la sala que el enemigo ha muerto (si está en una)
+        Room room = enemy.GetComponentInParent<Room>();
+        if (room != null)
+        {
+            room.SendMessage("OnEnemyDefeated", enemy); // Reutiliza la lógica de OnEnemyDefeated
+        }
+
+        // Reproducir sonido antes de destruir
+        if (enemy is BombController bomb)
+        {
+            bomb.PlayExplosionSound();
+        }
+
         // Destruir el enemigo después de un pequeño retraso para que se vea la animación
         Object.Destroy(enemy.gameObject, 0.2f);
     }
-    
+
 }
 

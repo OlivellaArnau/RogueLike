@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateName: Explode
   stateDescription: 
-  explosionRadius: 3.7
-  explosionForce: 10
+  explosionRadius: 3
+  explosionForce: 3
   affectedLayers:
     serializedVersion: 2
     m_Bits: 65
